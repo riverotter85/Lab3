@@ -7,17 +7,20 @@ using CSC2110::String;
 #include <fstream>
 using namespace std;
 
-class WriteFile
+namespace CSC2110
 {
-   private:
-      ofstream* output_file;
-      bool closed;
+	class WriteFile
+	{
+   	private:
+      	   ofstream* output_file;
+      	   bool closed;
 
-   public:
-      WriteFile(const char* file_name);
-      ~WriteFile();
-      void writeLine(CSC2110::String* line);
-      void close();
-};
+   	public:
+      	   WriteFile(const char* file_name);
+      	   ~WriteFile();
+      	   void writeLine(CSC2110::String* line);
+      	   void close();
+	};
+}
 
 #endif

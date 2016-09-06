@@ -6,19 +6,22 @@ using CSC2110::String;
 
 #include <fstream>
 
-class ReadFile
+namespace CSC2110
 {
-   private:
-      std::ifstream* input_file;
-      bool _eof;
-      bool closed;
+	class ReadFile
+	{
+   	private:
+      	std::ifstream* input_file;
+      	bool _eof;
+      	bool closed;
 
-   public:
-      ReadFile(const char* file_name);
-      ~ReadFile();
-      String* readLine();
-      bool eof();
-      void close();
-};
+   	public:
+      	ReadFile(const char* file_name);
+      	~ReadFile();
+      	String* readLine();
+      	bool eof();
+      	void close();
+	};
+}
 
 #endif
