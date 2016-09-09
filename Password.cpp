@@ -1,19 +1,77 @@
 #include "Password.h"
+#include "ListArray.h"
+#include "ListArrayIterator.h"
+#include "Text.h"
+using CSC2110::ListArray;
 using CSC2110::ListArrayIterator;
-//using CSC2110::ListArray;
+using CSC2110::String;
 
 #include <iostream>
 using namespace std;
 
+// Insert Methods here!
+Password::Password()
+{
+   // NOTE: May need to change initialization later.
+   viable_words = new ListArray();
+   all_words = new ListArray();
+   len = -1;
+}
 
+Password::~Password()
+{
+   ListArrayIterator<String>* iter = all_words->iterator();
+   
+   // Delete every word the list iterator points to, and delete the iterator itself.
+   while (iter->hasNext())
+   {
+	   delete iter->next();
+   }
+   delete iter;
+   iter = NULL;
+   
+   delete viable_words;
+   delete all_words;
+   viable_words = NULL;
+   all_words = NULL;
+}
 
+void Password::addWord(String* word)
+{
+	if (word->length() == 0) { return; } // Additional safeguard for empty strings. May need to remove.
+	
+	// Reset the referenced word length for the first word that is added.
+	if (len == -1)
+	{
+		len = word->length();
+	}
+	viable_words->add(word);
+	all_words->add(word);
+}
 
+void Password::guess(int try_password, int num_matches)
+{
+	// Insert code
+}
 
+int Password::getNumberOfPasswordsLeft()
+{
+	return viable_words->size();
+}
 
-
-
-
-
+void Password::displayViableWords()
+{
+	ListArrayIterator<String>* viableIter = viable_words->iterator();
+	String* word = NULL;
+	
+	while (viableIter->hasNext)
+	{
+		word = viableIter->next();
+		word->displayText(); // NOTE: May encounter '\n' problems during runtime.
+	}
+	
+	delete viableIter;
+}
 
 int Password::bestGuess()
 {
@@ -74,4 +132,16 @@ int Password::bestGuess()
 
    delete all_iter;
    return best_guess_index;  //return a 1-based index into the all_words list of words (careful)
+}
+
+String* Password::getOriginalWord(int index) // 1-based
+{
+	String* item = NULL;
+	
+	if (index >= 1 && index <= all_words->size())
+	{
+		item = all_words->get(index);
+	}
+	
+	return item;
 }
