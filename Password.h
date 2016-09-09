@@ -3,7 +3,10 @@
 
 #include "ListArray.h"
 #include "Text.h"
-//complete the includes
+
+// Complete the includes
+using CSC2110::ListArray;
+using CSC2110::String;
 
 class Password
 {
@@ -16,8 +19,8 @@ class Password
       int getNumMatches(String* curr_word, String* word_guess);
 
    public:
-      Password Password();
-      Password ~Password();
+      Password();
+      ~Password();
       void addWord(String* word);
       void guess(int try_password, int num_matches);
       int getNumberOfPasswordsLeft();

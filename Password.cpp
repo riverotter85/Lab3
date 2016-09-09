@@ -13,8 +13,8 @@ using namespace std;
 Password::Password()
 {
    // NOTE: May need to change initialization later.
-   viable_words = new ListArray();
-   all_words = new ListArray();
+   viable_words = new ListArray<String>();
+   all_words = new ListArray<String>();
    len = -1;
 }
 
@@ -38,7 +38,7 @@ Password::~Password()
 
 void Password::addWord(String* word)
 {
-	if (word->length() == 0) { return; } // Additional safeguard for empty strings. May need to remove.
+	if (word->length() == 0) { return; } // Additional safeguard for empty strings.
 	
 	// Reset the referenced word length for the first word that is added.
 	if (len == -1)
@@ -51,7 +51,26 @@ void Password::addWord(String* word)
 
 void Password::guess(int try_password, int num_matches)
 {
-	// Insert code
+	String* word = viable_words->get(try_password);
+	String* other = NULL;
+	int numMatches;
+	int index = 1;
+	
+	if (num_matches < 0 || num_matches > viable_words->size()) { return; }
+	
+	while (index <= viable_words->size())
+	{
+		other = viable_words->get(index);
+		numMatches = getNumMatches(word, other);
+		if (numMatches != num_matches)
+		{
+			viable_words->remove(index);
+		}
+		else
+		{
+			index++;
+		}
+	}
 }
 
 int Password::getNumberOfPasswordsLeft()
@@ -64,10 +83,14 @@ void Password::displayViableWords()
 	ListArrayIterator<String>* viableIter = viable_words->iterator();
 	String* word = NULL;
 	
-	while (viableIter->hasNext)
+	while (viableIter->hasNext())
 	{
 		word = viableIter->next();
-		word->displayText(); // NOTE: May encounter '\n' problems during runtime.
+		word->displayString();
+		
+		word = new String("\n");
+		word->displayString();
+		delete word;
 	}
 	
 	delete viableIter;
@@ -144,4 +167,20 @@ String* Password::getOriginalWord(int index) // 1-based
 	}
 	
 	return item;
+}
+
+int Password::getNumMatches(String* curr_word, String* word_guess)
+{
+	int numMatches = 0;
+	int wordLength = curr_word->length(); // Words are assumed to be the same length.
+	
+	for (int i = 0; i < wordLength; i++)
+	{
+		if (curr_word->charAt(i) == word_guess->charAt(i))
+		{
+			numMatches++;
+		}
+	}
+	
+	return numMatches;
 }
