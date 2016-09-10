@@ -1,3 +1,9 @@
+/*
+	Filename: Password.cpp
+	Modified By: Logan Davis & Elliott Monday
+	Date Modified: 9/09/2016
+*/
+
 #include "Password.h"
 #include "ListArray.h"
 #include "ListArrayIterator.h"
@@ -9,20 +15,20 @@ using CSC2110::String;
 #include <iostream>
 using namespace std;
 
-// Insert Methods here!
+/* Constructor */
 Password::Password()
 {
-   // NOTE: May need to change initialization later.
    viable_words = new ListArray<String>();
    all_words = new ListArray<String>();
    len = -1;
 }
 
+/* Destructor */
 Password::~Password()
 {
    ListArrayIterator<String>* iter = all_words->iterator();
    
-   // Delete every word the list iterator points to, and delete the iterator itself.
+   // Delete every word the list iterator points to, then delete the iterator itself.
    while (iter->hasNext())
    {
 	   delete iter->next();
@@ -36,6 +42,7 @@ Password::~Password()
    all_words = NULL;
 }
 
+/* Method of adding new words to the password list. */
 void Password::addWord(String* word)
 {
 	if (word->length() == 0) { return; } // Additional safeguard for empty strings.
@@ -49,15 +56,21 @@ void Password::addWord(String* word)
 	all_words->add(word);
 }
 
+/* Method that compares the word passed to the list of viable passwords,
+   and removes any passwords that don't have the same number of matching characters. */
 void Password::guess(int try_password, int num_matches)
 {
-	String* word = viable_words->get(try_password);
+	String* word = all_words->get(try_password); // Retrieve the word given from the index.
 	String* other = NULL;
 	int numMatches;
 	int index = 1;
 	
-	if (num_matches < 0 || num_matches > viable_words->size()) { return; }
+	// First do a little error checking just to make sure everything is in range.
+	if (try_password < 1 || try_password > all_words->size()) { return; }
+	if (num_matches < 0 || num_matches > word->length()) { return; }
 	
+	// For every viable password that does not share the same amount of matching
+	// characters found, remove it from the viable_words array list.
 	while (index <= viable_words->size())
 	{
 		other = viable_words->get(index);
@@ -73,29 +86,34 @@ void Password::guess(int try_password, int num_matches)
 	}
 }
 
+/* Returns the number of viable passwords. */
 int Password::getNumberOfPasswordsLeft()
 {
 	return viable_words->size();
 }
 
+/* Prints the list of viable passwords to the screen in its own body of text. */
 void Password::displayViableWords()
 {
 	ListArrayIterator<String>* viableIter = viable_words->iterator();
+	String* newLine = new String("\n");
 	String* word = NULL;
 	
+	// Dedicate a new line on the screen for every viable password.
+	newLine->displayString();
 	while (viableIter->hasNext())
 	{
 		word = viableIter->next();
 		word->displayString();
-		
-		word = new String("\n");
-		word->displayString();
-		delete word;
+		newLine->displayString();
 	}
+	newLine->displayString();
 	
+	delete newLine;
 	delete viableIter;
 }
 
+/* Determines the password that is most likely to be correct, and returns its index. (1-based) */
 int Password::bestGuess()
 {
    int best_guess_index = -1;
@@ -157,7 +175,8 @@ int Password::bestGuess()
    return best_guess_index;  //return a 1-based index into the all_words list of words (careful)
 }
 
-String* Password::getOriginalWord(int index) // 1-based
+/* Returns a pointer to the string with the specified 1-based index. */
+String* Password::getOriginalWord(int index)
 {
 	String* item = NULL;
 	
@@ -169,6 +188,7 @@ String* Password::getOriginalWord(int index) // 1-based
 	return item;
 }
 
+/* Calculates and returns the matching number of characters between the two words. */
 int Password::getNumMatches(String* curr_word, String* word_guess)
 {
 	int numMatches = 0;

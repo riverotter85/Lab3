@@ -1,5 +1,11 @@
+/*
+	Filename: PasswordDriver.cpp
+	Modified By: Logan Davis & Elliott Monday
+	Date Modified: 9/09/2016
+*/
+
 #include "Password.h"
-#include "Keyboard.h"
+#include "Keyboard.h" // Added necessary extra includes.
 #include "Readfile.h"
 using CSC2110::Keyboard;
 using CSC2110::ReadFile;

@@ -1,10 +1,14 @@
 #if !defined PASSWORD_H
+/*
+	Filename: Password.h
+	Modified By: Logan Davis & Elliott Monday
+	Date Modified: 9/09/2016
+*/
+
 #define PASSWORD_H
 
 #include "ListArray.h"
 #include "Text.h"
-
-// Complete the includes
 using CSC2110::ListArray;
 using CSC2110::String;
 
