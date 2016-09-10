@@ -1,9 +1,10 @@
-#if !defined PASSWORD_H
 /*
 	Filename: Password.h
 	Modified By: Logan Davis & Elliott Monday
 	Date Modified: 9/09/2016
 */
+
+#if !defined PASSWORD_H
 
 #define PASSWORD_H
 
