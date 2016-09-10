@@ -45,13 +45,14 @@ Password::~Password()
 /* Method of adding new words to the password list. */
 void Password::addWord(String* word)
 {
-	if (word->length() == 0) { return; } // Additional safeguard for empty strings.
-	
-	// Reset the referenced word length for the first word that is added.
-	if (len == -1)
+	// Reset the referenced word length for the first word that is not an empty string.
+	if (len == -1 && word->length() > 0)
 	{
 		len = word->length();
 	}
+	
+	if (word->length() != len) { return; } // Do not add any strings that are not the same length.
+	
 	viable_words->add(word);
 	all_words->add(word);
 }
